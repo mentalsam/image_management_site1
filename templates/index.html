@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Management</title>
+</head>
+<body>
+    <h1>Image Management</h1>
+    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    <h2>Uploaded Images</h2>
+    <div>
+        {% for image in images %}
+            <div>
+                <img src="{{ url_for('uploaded_file', filename='thumb_' + image.filename) }}" alt="{{ image.filename }}">
+                <p>{{ image.filename }}</p>
+                <p>Uploaded at: {{ image.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>  <!-- アップロード日時を表示 -->
+                <form action="{{ url_for('delete_image', id=image.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
